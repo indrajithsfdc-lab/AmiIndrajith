@@ -20,13 +20,22 @@
 
         .container {
             z-index: 10;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
         }
 
-        h1 { color: #d63384; margin-bottom: 20px; }
+        h1 { color: #d63384; margin-bottom: 20px; font-size: 1.8rem; }
+        #lyrics { 
+            color: #ff4d6d; 
+            font-weight: bold; 
+            font-style: italic; 
+            display: none; 
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
 
         .buttons {
             display: flex;
@@ -37,11 +46,11 @@
 
         button {
             padding: 15px 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
         }
 
         #yesBtn { background-color: #ff4d6d; color: white; }
@@ -62,8 +71,14 @@
 </head>
 <body>
 
+    <audio id="valentineMusic">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
         <h1 id="question">Will you be my Valentine? ❤️</h1>
+        <div id="lyrics">"Take a look at my girlfriend,<br>she's the only one I got!" 🎶</div>
+        
         <div class="buttons">
             <button id="yesBtn">Yes!</button>
             <button id="noBtn">No</button>
@@ -74,6 +89,8 @@
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const question = document.getElementById('question');
+        const lyrics = document.getElementById('lyrics');
+        const music = document.getElementById('valentineMusic');
 
         // Make the 'No' button run away
         noBtn.addEventListener('mouseover', () => {
@@ -86,12 +103,18 @@
 
         // What happens on 'Yes'
         yesBtn.addEventListener('click', () => {
-            question.innerHTML = "Yay! See you on the 14th! 🥰";
+            question.innerHTML = "I knew you'd say yes! 🥰";
+            lyrics.style.display = 'block';
             document.querySelector('.buttons').style.display = 'none';
+            
+            // Play music
+            music.play().catch(error => {
+                console.log("Autoplay blocked, but clicking Yes usually fixes this!");
+            });
+
             setInterval(createHeart, 300);
         });
 
-        // Floating hearts background effect
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-bg');
